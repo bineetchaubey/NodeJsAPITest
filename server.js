@@ -47,5 +47,36 @@ app.post('/addAgent', function(req, res, next) {
     })
 })
 
+app.delete('/deleteAgent', function(req, res, next) {
+
+    // agent_list.push(req.body)
+    const update_agent_list = agent_list.filter(row => row.id != req.query.id)
+
+    return res.send({
+        success: true,
+        result: update_agent_list,
+        req: req.query.id
+    })
+
+})
+
+
+app.put('/updateAgent', function(req, res, next) {
+
+    const update_agent_list = agent_list.map(row =>
+        row.id == req.query.id
+          ? { ...row,  ...req.body }
+          : row
+      );
+      
+    return res.send({
+        success: true,
+        result: update_agent_list,
+        req: req.query.id
+    })
+
+})
+
+
 
 module.exports = app.listen(8089,()=>{ console.log('working api') });
