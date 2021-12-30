@@ -63,6 +63,44 @@ describe('Test Node js API ',()=>{
             })
 
         })
+    })
 
+
+    describe(' Test delete API  ',() => {
+        it('Test Delete API  ',() =>{
+            chai.request(server).delete('/deleteAgent?id=3').
+            end((err,response) => {
+                 // console.log(response.body)
+                response.should.have.status(200);
+                response.body.should.have.property('result')
+                response.body.should.have.property('result').and.length(3)
+                expect(response.body.result).to.not.include.deep.members([{
+                    name: 'agent 03',
+                    email : 'agent03@mailinator.com',
+                    id: 3
+                }]);
+            })
+
+        })
+    })
+
+    describe(' Test Put API  ',() => {
+        it('Test Put API  ',() =>{
+            chai.request(server).put('/updateAgent?id=3').send({
+                name: 'agent 05',
+                email : 'agent05@mailinator.com',
+            }).
+            end((err,response) => {
+                 // console.log(response.body)
+                response.should.have.status(200);
+                response.body.should.have.property('result')
+                response.body.should.have.property('result').and.length(4)
+                expect(response.body.result).to.include.deep.members([{
+                    name: 'agent 05',
+                    email : 'agent05@mailinator.com',
+                    id: 3
+                }]);
+            })
+        })
     })
 }) 
