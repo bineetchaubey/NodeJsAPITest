@@ -38,7 +38,31 @@ describe('Test Node js API ',()=>{
                     
                 })
             })
-           
+   
     })
 
+    describe(' Test Post API  ',() => {
+        it('Test post API Res ',() =>{
+            chai.request(server).post('/addAgent')
+            .send({
+                name: 'agent 04',
+                email : 'agent04@mailinator.com',
+                id: 4
+            }).
+            end((err,response) => {
+                // console.log(response)
+                response.should.have.status(200);
+                response.body.should.have.property('result')
+                response.body.should.have.property('result').and.length(4)
+                expect(response.body.result).to.include.deep.members([{
+                    name: 'agent 04',
+                    email : 'agent04@mailinator.com',
+                    id: 4
+                }]);
+
+            })
+
+        })
+
+    })
 }) 
